@@ -68,7 +68,9 @@ export default {
         </div>
         <div class="text">
             <span id="title">{{ movie.title }}</span><br>
-            <span id="original-title">Original title: {{ movie.original_title }}</span><br>
+            <span v-show="movie.title !== movie.original_title" id="original-title">Original title: {{
+                movie.original_title
+            }}</span><br>
             <span id="vote">Vote: {{ roundVote(movie.vote_average) }}</span><br>
         </div>
     </li>
