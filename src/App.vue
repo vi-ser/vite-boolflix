@@ -23,20 +23,31 @@ export default {
             console.log(res.data.results);
             this.store.movies = res.data.results;
         })
+
+        axios.get('https://api.themoviedb.org/3/discover/tv?api_key=9a5bf9d0d0e38756373c9b8e6d6b6c10').then(res => {
+
+            console.log(res.data.results);
+            this.store.series = res.data.results;
+        })
     },
 
     methods: {
 
         searchMovies() {
 
-            axios.get('https://api.themoviedb.org/3/search/movie?api_key=e99307154c6dfb0b4750f6603256716d&query=' + this.store.searchText)
+            axios.get('https://api.themoviedb.org/3/search/movie?api_key=9a5bf9d0d0e38756373c9b8e6d6b6c10&query=' + this.store.searchText)
                 .then(res => {
                     console.log(res.data.results)
 
                     this.store.movies = res.data.results;
                 });
 
-            console.log("Ricerca percepita")
+            // axios.get('https://api.themoviedb.org/3/search/tv?api_key=9a5bf9d0d0e38756373c9b8e6d6b6c10&query=scrubs')
+            //     .then(res => {
+            //         console.log(res.data.results)
+
+            //         this.store.series += res.data.results;
+            //     });
         },
     }
 }

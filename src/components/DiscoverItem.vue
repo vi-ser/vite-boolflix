@@ -1,6 +1,8 @@
 <script>
 
 import MovieItem from '../components/MovieItem.vue'
+import SerieItem from '../components/SerieItem.vue'
+
 import { store } from '../store.js'
 
 export default {
@@ -8,6 +10,7 @@ export default {
 
     components: {
         MovieItem,
+        SerieItem,
     },
 
     data() {
@@ -21,9 +24,13 @@ export default {
 
 <template>
     <div class="main-container">
-        <h2 class="mb-4">Discover</h2>
+        <h2 class="mb-4">Movies</h2>
         <ul class="list-unstyled">
             <MovieItem v-for="currentMovie in store.movies" :movie="currentMovie"></MovieItem>
+        </ul>
+        <h2 class="mb-4">TV Series</h2>
+        <ul class="list-unstyled">
+            <SerieItem v-for="currentSerie in store.series" :serie="currentSerie"></SerieItem>
         </ul>
     </div>
 

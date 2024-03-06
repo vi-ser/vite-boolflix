@@ -3,10 +3,10 @@ import axios from 'axios';
 import { store } from '../store.js'
 
 export default {
-    name: 'MovieItem',
+    name: 'SerieItem',
 
     props: {
-        movie: Object,
+        serie: Object,
     },
 
     data() {
@@ -61,15 +61,15 @@ export default {
 </script>
 
 <template>
-    <li class="movie d-flex flex-column justify-content-start">
+    <li class="serie d-flex flex-column justify-content-start">
         <img src="" alt="">
         <div class="img-container">
-            <img id="language" :src="getFlagUrl(movie.original_language)">
+            <img id="language" :src="getFlagUrl(serie.original_language)">
         </div>
         <div class="text">
-            <span id="title">{{ movie.title }}</span><br>
-            <span id="original-title">Original title: {{ movie.original_title }}</span><br>
-            <span id="vote">Vote: {{ roundVote(movie.vote_average) }}</span><br>
+            <span id="title">{{ serie.name }}</span><br>
+            <span id="original-title">Original name: {{ serie.original_name }}</span><br>
+            <span id="vote">Vote: {{ roundVote(serie.vote_average) }}</span><br>
         </div>
     </li>
 </template>
