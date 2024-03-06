@@ -2,11 +2,13 @@
 import axios from 'axios';
 import { store } from './store.js'
 import AppNav from './components/AppNav.vue'
+import AppExplorer from './components/AppExplorer.vue'
 
 export default {
 
     components: {
         AppNav,
+        AppExplorer,
     },
 
     data() {
@@ -27,6 +29,7 @@ export default {
 
 <template>
     <AppNav></AppNav>
+    <AppExplorer></AppExplorer>
 </template>
 
 <style lang="scss"></style>
