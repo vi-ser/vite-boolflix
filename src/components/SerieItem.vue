@@ -68,7 +68,8 @@ export default {
         </div>
         <div class="text">
             <span id="title">{{ serie.name }}</span><br>
-            <span id="original-title">Original name: {{ serie.original_name }}</span><br>
+            <span v-show="serie.name !== serie.original_name" id="original-title">Original name: {{ serie.original_name
+                }}</span><br>
             <span id="vote">Vote: {{ roundVote(serie.vote_average) }}</span><br>
         </div>
     </li>
