@@ -23,12 +23,27 @@ export default {
             console.log(res.data.results);
             this.store.movies = res.data.results;
         })
+    },
+
+    methods: {
+
+        searchMovies() {
+
+            axios.get('https://api.themoviedb.org/3/search/movie?api_key=e99307154c6dfb0b4750f6603256716d&query=' + this.store.searchText)
+                .then(res => {
+                    console.log(res.data.results)
+
+                    this.store.movies = res.data.results;
+                });
+
+            console.log("Ricerca percepita")
+        },
     }
 }
 </script>
 
 <template>
-    <AppNav></AppNav>
+    <AppNav @search="searchMovies()"></AppNav>
     <AppExplorer></AppExplorer>
 </template>
 

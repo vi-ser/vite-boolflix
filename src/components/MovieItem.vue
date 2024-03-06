@@ -19,11 +19,15 @@ export default {
         getFlagUrl(language) {
 
             if (language === 'en') {
-                return 'https://flagcdn.com/gb-eng.svg';
+                return 'https://flagcdn.com/us.svg';
             }
 
             else if (language === 'ko') {
                 return 'https://flagcdn.com/kr.svg';
+            }
+
+            else if (language === 'el') {
+                return 'https://flagcdn.com/gr.svg';
             }
 
             else {

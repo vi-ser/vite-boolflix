@@ -1,7 +1,14 @@
 <script>
+import { store } from '../store';
 
 export default {
     name: 'AppNav',
+
+    data() {
+        return {
+            store,
+        }
+    },
 }
 </script>
 
@@ -20,7 +27,8 @@ export default {
         </div>
         <div class="right-container d-flex gap-4 align-items-center">
             <div id="search-bar" class="d-flex align-items-center mb-0">
-                <input type="search" class="rounded-1" name="saerchText" placeholder="Search for a movie">
+                <input v-model="store.searchText" type="search" class="rounded-1" name="saerchText"
+                    placeholder="Search for a movie">
                 <button @click="$emit('search')" class="btn rounded-1">Search</button>
             </div>
             <i class="fa-solid fa-bell"></i>
