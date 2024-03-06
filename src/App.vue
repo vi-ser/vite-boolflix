@@ -33,7 +33,7 @@ export default {
 
     methods: {
 
-        searchMovies() {
+        searchContent() {
 
             axios.get('https://api.themoviedb.org/3/search/movie?api_key=9a5bf9d0d0e38756373c9b8e6d6b6c10&query=' + this.store.searchText)
                 .then(res => {
@@ -54,7 +54,7 @@ export default {
 </script>
 
 <template>
-    <AppNav @search="searchMovies()"></AppNav>
+    <AppNav @search="searchContent()"></AppNav>
     <AppExplorer></AppExplorer>
 </template>
 
