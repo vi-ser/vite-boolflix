@@ -32,6 +32,10 @@ export default {
             }
         },
 
+        roundVote(number) {
+            return number.toFixed(1);
+        },
+
     }
 }
 
@@ -47,7 +51,7 @@ export default {
         <div class="text">
             <span id="title">{{ movie.title }}</span><br>
             <span id="original-title">Original title: {{ movie.original_title }}</span><br>
-            <span id="vote">Vote: {{ movie.vote_count }}</span><br>
+            <span id="vote">Vote: {{ roundVote(movie.vote_average) }}</span><br>
         </div>
 
     </li>
