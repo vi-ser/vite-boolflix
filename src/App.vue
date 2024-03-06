@@ -26,6 +26,7 @@ export default {
 </script>
 
 <template>
+    <AppNav></AppNav>
 </template>
 
 <style lang="scss"></style>
