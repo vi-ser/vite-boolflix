@@ -1,4 +1,7 @@
 <script>
+import axios from 'axios';
+import { store } from '../store.js'
+
 export default {
     name: 'MovieItem',
 
@@ -6,7 +9,32 @@ export default {
         movie: Object,
     },
 
+    data() {
+        return {
+            store,
+        }
+    },
+
+    methods: {
+        getFlagUrl(language) {
+
+            if (language === 'en') {
+                return 'https://flagcdn.com/gb-eng.svg';
+            }
+
+            else if (language === 'ko') {
+                return 'https://flagcdn.com/kr.svg';
+            }
+
+            else {
+                return 'https://flagcdn.com/' + language + '.svg';
+
+            }
+        },
+
+    }
 }
+
 </script>
 
 <template>
@@ -14,11 +42,10 @@ export default {
 
         <img src="" alt="">
         <div class="img-container">
-            <img id="language" :src="'https://flagcdn.com/' + movie.original_language + '.svg'" alt="">
+            <img id="language" :src="getFlagUrl(movie.original_language)">
         </div>
-        <!-- <span id="original-language"> {{ movie.original_language }}</span><br> -->
         <div class="text">
-            <span id="title" {{ movie.title }}></span><br>
+            <span id="title">{{ movie.title }}</span><br>
             <span id="original-title">Original title: {{ movie.original_title }}</span><br>
             <span id="vote">Vote: {{ movie.vote_count }}</span><br>
         </div>
