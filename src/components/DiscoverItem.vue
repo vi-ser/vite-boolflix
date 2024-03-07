@@ -23,15 +23,28 @@ export default {
 </script>
 
 <template>
+
     <div class="main-container">
-        <h2 class="mb-4">Movies</h2>
-        <ul class="list-unstyled">
-            <MovieItem v-for="currentMovie in store.movies" :movie="currentMovie"></MovieItem>
-        </ul>
-        <h2 class="mb-4">TV Series</h2>
-        <ul class="list-unstyled">
-            <SerieItem v-for="currentSerie in store.series" :serie="currentSerie"></SerieItem>
-        </ul>
+        <div v-if="store.noResults || (store.movies.length === 0 && store.series.length === 0)"
+            class="no-content-found d-flex flex-column justify-content-start align-items-start text-start">
+            <span v-if="store.searchResult">Your search for {{ store.searchResult }} did not have any matches.</span>
+            <span v-else>Suggestions:</span>
+            <ul class="text-start d-flex flex-column">
+                <li class="mb-0 pb-0 " v-if="store.searchResult">Try different keywords</li>
+                <li v-if="store.searchResult">Looking for a movie or TV show?</li>
+            </ul>
+        </div>
+        <div v-else>
+            <h2 class="mb-4">Movies</h2>
+            <ul id="content" class="list-unstyled">
+                <MovieItem v-for="currentMovie in store.movies" :movie="currentMovie"></MovieItem>
+            </ul>
+            <br>
+            <h2 class="mb-4">TV Series</h2>
+            <ul id="content" class="list-unstyled">
+                <SerieItem v-for="currentSerie in store.series" :serie="currentSerie"></SerieItem>
+            </ul>
+        </div>
     </div>
 
 
@@ -44,7 +57,7 @@ export default {
 .main-container {
     padding: 32px 72px;
 
-    ul {
+    #content {
         display: flex;
         flex-flow: wrap;
 

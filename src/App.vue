@@ -34,21 +34,30 @@ export default {
     methods: {
 
         searchContent() {
+            if (this.store.searchText.trim() !== '') {
 
-            axios.get('https://api.themoviedb.org/3/search/movie?api_key=9a5bf9d0d0e38756373c9b8e6d6b6c10&query=' + this.store.searchText)
-                .then(res => {
-                    console.log(res.data.results)
+                axios.get('https://api.themoviedb.org/3/search/movie?api_key=9a5bf9d0d0e38756373c9b8e6d6b6c10&query=' + this.store.searchText)
+                    .then(res => {
 
-                    this.store.movies = res.data.results;
-                });
+                        this.store.movies = res.data.results;
 
-            axios.get('https://api.themoviedb.org/3/search/tv?api_key=9a5bf9d0d0e38756373c9b8e6d6b6c10&query=' + this.store.searchText)
-                .then(res => {
-                    console.log(res.data.results)
+                    });
 
-                    this.store.series = res.data.results;
-                });
+                axios.get('https://api.themoviedb.org/3/search/tv?api_key=9a5bf9d0d0e38756373c9b8e6d6b6c10&query=' + this.store.searchText)
+                    .then(res => {
+
+                        this.store.series = res.data.results;
+
+                    });
+
+                if (this.store.movies.length == 0 || this.store.series.length == 0) {
+                    this.store.noResults = true;
+                }
+
+
+            }
         },
+
     }
 }
 </script>
