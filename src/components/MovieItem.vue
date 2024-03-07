@@ -1,6 +1,8 @@
 <script>
 import axios from 'axios';
 import { store } from '../store.js'
+import SerieItem from './SerieItem.vue';
+
 
 export default {
     name: 'MovieItem',
@@ -12,6 +14,7 @@ export default {
     data() {
         return {
             store,
+            isHovered: false,
         }
     },
 
@@ -86,23 +89,43 @@ export default {
             }
         },
 
+        addHoverClass() {
+            this.isHovered = true;
+        },
+
+        removeHoverClass() {
+            this.isHovered = false;
+        }
+
     }
 }
-
 </script>
 
 <template>
-    <li class="movie d-flex flex-column justify-content-start">
-        <img id="cover" class="mb-2" :src="getCover(movie.poster_path)" :alt="movie.title">
-        <div class="img-container">
-            <img id="language" :src="getFlagUrl(movie.original_language)">
+    <li @mouseenter="addHoverClass" @mouseleave="removeHoverClass"
+        class="serie d-flex flex-column justify-content-start" :class="{ 'hovered': isHovered }">
+        <div class="front-card">
+            <div class="cover-container">
+                <img id="cover" :src="getCover(movie.poster_path)" :alt="movie.title">
+            </div>
         </div>
-        <div class="text">
-            <span id="title">{{ movie.title }}</span><br>
-            <span v-show="movie.title !== movie.original_title" id="original-title">Original title: {{
-            movie.original_title
-        }}</span><br>
-            <span id="vote" v-html="starVote(movie.vote_average)"></span><br>
+        <div class="back-card">
+
+            <div class="text">
+                <span id="title">{{ movie.title }}</span><br>
+                <span id="vote" v-html="starVote(movie.vote_average)"></span><br>
+                <span v-show="movie.title !== movie.original_title" id="original-title"><strong>Original name:
+                    </strong>{{
+            movie.original_title }}</span> <br> <br>
+                <span v-if="movie.overview.length < 100" id="overview">{{ movie.overview }}</span>
+                <div v-else>{{ movie.overview.substring(0, 100) + ".." }}</div>
+
+
+
+            </div>
+            <div class="flag-container">
+                <img id="language" :src="getFlagUrl(movie.original_language)">
+            </div>
         </div>
     </li>
 </template>
@@ -114,32 +137,82 @@ export default {
 li {
 
     width: calc(100% / 5 - $movieGap / 5 * 4);
+    position: relative;
 
-    #cover {
-        aspect-ratio: 4 / 6;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+
+    &.hovered {
+        transform: rotateY(-180deg);
     }
 
-    #language {
-        height: 10px;
-    }
+    .front-card {
 
-    .text {
+        border: 1px solid #212529;
 
-        #title {
-            font-size: 1.2em;
-            width: 100%;
-        }
+        .cover-container {
 
-        #original-title {
-            font-size: .9em;
-        }
+            aspect-ratio: 4 / 6;
+            backface-visibility: hidden;
 
-        #vote {
-            color: white;
-            font-size: .7em;
-            letter-spacing: 2px;
+
+            #cover {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
         }
     }
+
+    .back-card {
+
+        position: absolute;
+
+        left: 0;
+        top: 0;
+
+        padding: 20px;
+        background-color: #141414f7;
+        width: 100%;
+        height: 100%;
+
+        backface-visibility: hidden;
+        transform: rotateY(180deg);
+
+        #language {
+            height: 10px;
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+        }
+
+        .text {
+
+            #title {
+                font-size: 1.2em;
+                width: 100%;
+            }
+
+            #original-title {
+                font-size: .9em;
+            }
+
+            #vote {
+                color: white;
+                font-size: .7em;
+                letter-spacing: 2px;
+            }
+        }
+
+    }
+
+    li.hovered .back-card {
+        transform: rotateY(0deg);
+    }
+
+
+
 
 }
 </style>

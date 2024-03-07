@@ -105,7 +105,7 @@ export default {
         class="serie d-flex flex-column justify-content-start" :class="{ 'hovered': isHovered }">
         <div class="front-card">
             <div class="cover-container">
-                <img id="cover" class="mb-2" :src="getCover(serie.poster_path)" :alt="serie.name">
+                <img id="cover" :src="getCover(serie.poster_path)" :alt="serie.name">
             </div>
         </div>
         <div class="back-card">
@@ -114,7 +114,9 @@ export default {
                 <span id="title">{{ serie.name }}</span><br>
                 <span id="vote" v-html="starVote(serie.vote_average)"></span><br>
                 <span v-show="serie.name !== serie.original_name" id="original-title"><strong>Original name: </strong>{{
-            serie.original_name }}</span>
+            serie.original_name }}</span><br><br>
+                <span v-if="serie.overview.length < 100" id="overview">{{ serie.overview }}</span>
+                <div v-else>{{ serie.overview.substring(0, 100) + ".." }}</div>
 
 
             </div>
@@ -143,6 +145,8 @@ li {
 
     .front-card {
 
+        border: 1px solid #212529;
+
         .cover-container {
 
             aspect-ratio: 4 / 6;
@@ -166,7 +170,7 @@ li {
         top: 0;
 
         padding: 20px;
-        background-color: #141414;
+        background-color: #141414f7;
         width: 100%;
         height: 100%;
 
