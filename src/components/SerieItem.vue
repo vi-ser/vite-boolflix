@@ -51,9 +51,31 @@ export default {
             }
         },
 
-        roundVote(number) {
+        starVote(number) {
             number /= 2;
-            return number.toFixed(0);
+            number = Math.round(number);
+
+            if (number == 0) {
+                number = 1;
+            }
+
+            switch (number) {
+                case 1:
+                    return '<i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>';
+
+                case 2:
+
+                    return '<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>';
+
+                case 3:
+                    return '<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>';
+
+                case 4:
+                    return '<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>';
+
+                case 5:
+                    return '<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>'
+            }
         },
 
         getCover(cover) {
@@ -79,7 +101,7 @@ export default {
             <span id="title">{{ serie.name }}</span><br>
             <span v-show="serie.name !== serie.original_name" id="original-title">Original name: {{ serie.original_name
                 }}</span><br>
-            <span id="vote">Vote: {{ roundVote(serie.vote_average) }}</span><br>
+            <span id="vote" v-html="starVote(serie.vote_average)"></span><br>
         </div>
     </li>
 </template>
@@ -112,8 +134,9 @@ li {
         }
 
         #vote {
-            color: #00E164;
-            font-size: .9em;
+            color: white;
+            font-size: .7em;
+            letter-spacing: 2px;
         }
     }
 
