@@ -119,8 +119,7 @@ export default {
             movie.original_title }}</span> <br> <br>
                 <span v-if="movie.overview.length < 100" id="overview">{{ movie.overview }}</span>
                 <div v-else>{{ movie.overview.substring(0, 100) + ".." }}</div>
-
-
+                <a :href="'https://www.themoviedb.org/movie/' + movie.id" target="_blank">more</a>
 
             </div>
             <div class="flag-container">
@@ -202,6 +201,18 @@ li {
                 color: white;
                 font-size: .7em;
                 letter-spacing: 2px;
+            }
+
+            a {
+                position: absolute;
+                bottom: 20px;
+                left: 20px;
+                text-transform: uppercase;
+                color: lightgray;
+
+                &:hover {
+                    color: white;
+                }
             }
         }
 

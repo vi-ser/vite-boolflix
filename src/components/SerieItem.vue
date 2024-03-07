@@ -117,8 +117,7 @@ export default {
             serie.original_name }}</span><br><br>
                 <span v-if="serie.overview.length < 100" id="overview">{{ serie.overview }}</span>
                 <div v-else>{{ serie.overview.substring(0, 100) + ".." }}</div>
-
-
+                <a :href="'https://www.themoviedb.org/tv/' + serie.id" target="_blank">more</a>
             </div>
             <div class="flag-container">
                 <img id="language" :src="getFlagUrl(serie.original_language)">
@@ -199,6 +198,18 @@ li {
                 color: white;
                 font-size: .7em;
                 letter-spacing: 2px;
+            }
+
+            a {
+                position: absolute;
+                bottom: 20px;
+                left: 20px;
+                text-transform: uppercase;
+                color: lightgray;
+
+                &:hover {
+                    color: white;
+                }
             }
         }
 
