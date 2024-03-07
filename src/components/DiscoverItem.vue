@@ -66,7 +66,6 @@ export default {
         flex-flow: wrap;
 
         gap: $movieGap;
-        overflow-x: auto;
     }
 
 }

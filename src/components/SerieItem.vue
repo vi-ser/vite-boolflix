@@ -12,6 +12,7 @@ export default {
     data() {
         return {
             store,
+            isHovered: false,
         }
     },
 
@@ -86,22 +87,40 @@ export default {
             }
         },
 
+        addHoverClass() {
+            this.isHovered = true;
+        },
+
+        removeHoverClass() {
+            this.isHovered = false;
+        }
+
     }
 }
 
 </script>
 
 <template>
-    <li class="serie d-flex flex-column justify-content-start">
-        <img id="cover" class="mb-2" :src="getCover(serie.poster_path)" :alt="serie.name">
-        <div class="img-container">
-            <img id="language" :src="getFlagUrl(serie.original_language)">
+    <li @mouseenter="addHoverClass" @mouseleave="removeHoverClass"
+        class="serie d-flex flex-column justify-content-start" :class="{ 'hovered': isHovered }">
+        <div class="front-card">
+            <div class="cover-container">
+                <img id="cover" class="mb-2" :src="getCover(serie.poster_path)" :alt="serie.name">
+            </div>
         </div>
-        <div class="text">
-            <span id="title">{{ serie.name }}</span><br>
-            <span v-show="serie.name !== serie.original_name" id="original-title">Original name: {{ serie.original_name
-                }}</span><br>
-            <span id="vote" v-html="starVote(serie.vote_average)"></span><br>
+        <div class="back-card">
+
+            <div class="text">
+                <span id="title">{{ serie.name }}</span><br>
+                <span id="vote" v-html="starVote(serie.vote_average)"></span><br>
+                <span v-show="serie.name !== serie.original_name" id="original-title"><strong>Original name: </strong>{{
+            serie.original_name }}</span>
+
+
+            </div>
+            <div class="flag-container">
+                <img id="language" :src="getFlagUrl(serie.original_language)">
+            </div>
         </div>
     </li>
 </template>
@@ -113,32 +132,80 @@ export default {
 li {
 
     width: calc(100% / 5 - $movieGap / 5 * 4);
+    position: relative;
 
-    #cover {
-        aspect-ratio: 4 / 6;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+
+    &.hovered {
+        transform: rotateY(-180deg);
     }
 
-    #language {
-        height: 10px;
-    }
+    .front-card {
 
-    .text {
+        .cover-container {
 
-        #title {
-            font-size: 1.2em;
-            width: 100%;
-        }
+            aspect-ratio: 4 / 6;
+            backface-visibility: hidden;
 
-        #original-title {
-            font-size: .9em;
-        }
 
-        #vote {
-            color: white;
-            font-size: .7em;
-            letter-spacing: 2px;
+            #cover {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
         }
     }
+
+    .back-card {
+
+        position: absolute;
+
+        left: 0;
+        top: 0;
+
+        padding: 20px;
+        background-color: #141414;
+        width: 100%;
+        height: 100%;
+
+        backface-visibility: hidden;
+        transform: rotateY(180deg);
+
+        #language {
+            height: 10px;
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+        }
+
+        .text {
+
+            #title {
+                font-size: 1.2em;
+                width: 100%;
+            }
+
+            #original-title {
+                font-size: .9em;
+            }
+
+            #vote {
+                color: white;
+                font-size: .7em;
+                letter-spacing: 2px;
+            }
+        }
+
+    }
+
+    li.hovered .back-card {
+        transform: rotateY(0deg);
+    }
+
+
+
 
 }
 </style>
