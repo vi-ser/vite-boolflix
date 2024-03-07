@@ -52,7 +52,15 @@ export default {
         },
 
         roundVote(number) {
-            return number.toFixed(1);
+            return number.toFixed(0);
+        },
+
+        getCover(cover) {
+            if (cover == null) {
+                return 'https://picsum.photos/342/500'
+            } else {
+                return 'https://image.tmdb.org/t/p/w342/' + cover;
+            }
         },
 
     }
@@ -62,7 +70,7 @@ export default {
 
 <template>
     <li class="serie d-flex flex-column justify-content-start">
-        <img src="" alt="">
+        <img id="cover" class="mb-2" :src="getCover(serie.poster_path)" :alt="serie.name">
         <div class="img-container">
             <img id="language" :src="getFlagUrl(serie.original_language)">
         </div>
@@ -82,6 +90,10 @@ export default {
 li {
 
     width: calc(100% / 5 - $movieGap / 5 * 4);
+
+    #cover {
+        aspect-ratio: 4 / 6;
+    }
 
     #language {
         height: 10px;

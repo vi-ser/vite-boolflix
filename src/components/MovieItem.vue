@@ -51,8 +51,16 @@ export default {
             }
         },
 
+        getCover(cover) {
+            if (cover == null) {
+                return 'https://picsum.photos/342/500'
+            } else {
+                return 'https://image.tmdb.org/t/p/w342/' + cover;
+            }
+        },
+
         roundVote(number) {
-            return number.toFixed(1);
+            return number.toFixed(0);
         },
 
     }
@@ -62,15 +70,15 @@ export default {
 
 <template>
     <li class="movie d-flex flex-column justify-content-start">
-        <img src="" alt="">
+        <img id="cover" class="mb-2" :src="getCover(movie.poster_path)" :alt="movie.title">
         <div class="img-container">
             <img id="language" :src="getFlagUrl(movie.original_language)">
         </div>
         <div class="text">
             <span id="title">{{ movie.title }}</span><br>
             <span v-show="movie.title !== movie.original_title" id="original-title">Original title: {{
-                movie.original_title
-            }}</span><br>
+            movie.original_title
+        }}</span><br>
             <span id="vote">Vote: {{ roundVote(movie.vote_average) }}</span><br>
         </div>
     </li>
@@ -83,6 +91,10 @@ export default {
 li {
 
     width: calc(100% / 5 - $movieGap / 5 * 4);
+
+    #cover {
+        aspect-ratio: 4 / 6;
+    }
 
     #language {
         height: 10px;

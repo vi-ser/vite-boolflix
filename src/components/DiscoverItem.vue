@@ -35,15 +35,16 @@ export default {
     </div>
 
     <div v-show="!store.noResults" class="main-container">
-        <div v-show="!store.noMovies">
-            <h2 class="mb-4">Movies</h2>
+        <div v-show="!store.noMovies" class="p-5 bg-dark rounded-1">
+            <h2 class="mb-4 text-uppercase fs-5">Movies</h2>
             <ul id="content" class="list-unstyled">
                 <MovieItem v-for="currentMovie in store.movies" :movie="currentMovie"></MovieItem>
             </ul>
         </div>
-        <div v-show="!store.noSeries">
+        <br>
+        <div v-show="!store.noSeries" class="p-5 bg-dark rounded-1">
             <br>
-            <h2 class="mb-4">TV Series</h2>
+            <h2 class="mb-4 text-uppercase fs-5">TV Series</h2>
             <ul id="content" class="list-unstyled">
                 <SerieItem v-for="currentSerie in store.series" :serie="currentSerie"></SerieItem>
             </ul>
@@ -58,7 +59,7 @@ export default {
 @use '../styles/variables' as *;
 
 .main-container {
-    padding: 32px 72px;
+    padding: 32px 72px 72px;
 
     #content {
         display: flex;
