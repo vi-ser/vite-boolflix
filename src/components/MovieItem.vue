@@ -60,6 +60,7 @@ export default {
         },
 
         roundVote(number) {
+            number /= 2;
             return number.toFixed(0);
         },
 

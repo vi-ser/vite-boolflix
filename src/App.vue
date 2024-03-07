@@ -30,13 +30,18 @@ export default {
     methods: {
 
         searchContent() {
-            // resetto le variabili
-            this.store.noMovies = false;
-            this.store.noSeries = false;
-            this.store.noResults = false;
 
             // se l'input non è vuoto o composto da spazi
             if (this.store.searchText.trim() !== '') {
+
+                // resetto le variabili
+                this.store.noMovies = false;
+                this.store.noSeries = false;
+                this.store.noResults = false;
+
+                // salvo il testo cercato in una variabile separata dal v-model
+                this.store.searchResult = this.store.searchText;
+
                 // multi per ottenere sia film che serie tv
                 axios.get('https://api.themoviedb.org/3/search/multi?api_key=9a5bf9d0d0e38756373c9b8e6d6b6c10&query=' + this.store.searchText)
                     .then(res => {
