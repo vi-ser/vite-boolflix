@@ -9,15 +9,20 @@ export default {
             store,
         }
     },
+    methods: {
+        refresh() {
+            location.reload();
+        }
+    }
 }
 </script>
 
 <template>
     <nav class="d-flex justify-content-between">
         <div class="left-container d-flex gap-5 align-items-center">
-            <img src="/logo.svg" alt="">
+            <img @click="refresh()" src="/logo.svg" alt="">
             <ul class="categories list-unstyled d-flex gap-4 mb-0">
-                <li class="active">Home</li>
+                <li @click="refresh()" class="active">Home</li>
                 <li>Tv Shows</li>
                 <li>Media</li>
                 <li>Movies</li>
@@ -47,13 +52,17 @@ nav {
 
         img {
             width: 124px;
+
+            &:hover {
+                cursor: pointer;
+            }
         }
 
         ul {
             user-select: none;
             color: #A2A2A2;
 
-            li:not(.active):hover {
+            li:hover {
                 color: white;
                 cursor: pointer;
             }
