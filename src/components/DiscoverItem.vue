@@ -23,22 +23,25 @@ export default {
 </script>
 
 <template>
-
-    <div class="main-container">
-        <div v-if="store.noResults || (store.movies.length === 0 && store.series.length === 0)"
-            class="no-content-found d-flex flex-column justify-content-start align-items-start text-start">
-            <span v-if="store.searchResult">Your search for {{ store.searchResult }} did not have any matches.</span>
-            <span v-else>Suggestions:</span>
+    <div v-show="store.noResults" class="main-container">
+        <div class="no-content-found d-flex flex-column justify-content-start align-items-start text-start">
+            <span>Your search for {{ store.searchResult }} did not have any matches.</span>
+            <span>Suggestions:</span>
             <ul class="text-start d-flex flex-column">
-                <li class="mb-0 pb-0 " v-if="store.searchResult">Try different keywords</li>
-                <li v-if="store.searchResult">Looking for a movie or TV show?</li>
+                <li class="mb-0 pb-0">Try different keywords</li>
+                <li>Looking for a movie or TV show?</li>
             </ul>
         </div>
-        <div v-else>
+    </div>
+
+    <div v-show="!store.noResults" class="main-container">
+        <div v-show="!store.noMovies">
             <h2 class="mb-4">Movies</h2>
             <ul id="content" class="list-unstyled">
                 <MovieItem v-for="currentMovie in store.movies" :movie="currentMovie"></MovieItem>
             </ul>
+        </div>
+        <div v-show="!store.noSeries">
             <br>
             <h2 class="mb-4">TV Series</h2>
             <ul id="content" class="list-unstyled">

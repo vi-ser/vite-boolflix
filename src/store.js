@@ -6,5 +6,7 @@ export const store = reactive({
     series: [],
     searchText: '',
     searchResult: '',
+    noMovies: false,
+    noSeries: false,
     noResults: false,
 });

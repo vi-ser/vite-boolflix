@@ -19,14 +19,10 @@ export default {
 
     created() {
         axios.get('https://api.themoviedb.org/3/discover/movie?api_key=9a5bf9d0d0e38756373c9b8e6d6b6c10').then(res => {
-
-            console.log(res.data.results);
             this.store.movies = res.data.results;
         })
 
         axios.get('https://api.themoviedb.org/3/discover/tv?api_key=9a5bf9d0d0e38756373c9b8e6d6b6c10').then(res => {
-
-            console.log(res.data.results);
             this.store.series = res.data.results;
         })
     },
@@ -34,27 +30,34 @@ export default {
     methods: {
 
         searchContent() {
+            // resetto le variabili
+            this.store.noMovies = false;
+            this.store.noSeries = false;
+            this.store.noResults = false;
+
+            // se l'input non è vuoto o composto da spazi
             if (this.store.searchText.trim() !== '') {
-
-                axios.get('https://api.themoviedb.org/3/search/movie?api_key=9a5bf9d0d0e38756373c9b8e6d6b6c10&query=' + this.store.searchText)
+                // multi per ottenere sia film che serie tv
+                axios.get('https://api.themoviedb.org/3/search/multi?api_key=9a5bf9d0d0e38756373c9b8e6d6b6c10&query=' + this.store.searchText)
                     .then(res => {
+                        // filtro i film
+                        this.store.movies = res.data.results.filter(content => content.media_type === 'movie');
+                        // filtro le serie tv
+                        this.store.series = res.data.results.filter(content => content.media_type === 'tv');
 
-                        this.store.movies = res.data.results;
+                        if (this.store.movies.length === 0) {
+                            this.store.noMovies = true;
+                        }
+
+                        if (this.store.series.length === 0) {
+                            this.store.noSeries = true;
+                        }
+
+                        if (this.store.noMovies && this.store.noSeries) {
+                            this.store.noResults = true;
+                        }
 
                     });
-
-                axios.get('https://api.themoviedb.org/3/search/tv?api_key=9a5bf9d0d0e38756373c9b8e6d6b6c10&query=' + this.store.searchText)
-                    .then(res => {
-
-                        this.store.series = res.data.results;
-
-                    });
-
-                if (this.store.movies.length == 0 || this.store.series.length == 0) {
-                    this.store.noResults = true;
-                }
-
-
             }
         },
 
