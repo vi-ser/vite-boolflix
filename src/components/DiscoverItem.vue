@@ -43,7 +43,6 @@ export default {
         </div>
         <br>
         <div v-show="!store.noSeries" class="p-5 bg-dark rounded-1">
-            <br>
             <h2 class="mb-4 text-uppercase fs-5">TV Series</h2>
             <ul id="content" class="list-unstyled">
                 <SerieItem v-for="currentSerie in store.series" :serie="currentSerie"></SerieItem>
@@ -59,7 +58,7 @@ export default {
 @use '../styles/variables' as *;
 
 .main-container {
-    padding: 32px 72px 72px;
+    padding: 24px 72px 72px;
 
     #content {
         display: flex;

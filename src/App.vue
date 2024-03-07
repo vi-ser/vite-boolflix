@@ -4,6 +4,7 @@ import { store } from './store.js'
 import AppNav from './components/AppNav.vue'
 import AppExplorer from './components/AppExplorer.vue'
 
+
 export default {
 
     components: {
@@ -25,6 +26,8 @@ export default {
         axios.get('https://api.themoviedb.org/3/discover/tv?api_key=9a5bf9d0d0e38756373c9b8e6d6b6c10').then(res => {
             this.store.series = res.data.results;
         })
+
+        // crediti https://api.themoviedb.org/3/movie/101/credits
     },
 
     methods: {

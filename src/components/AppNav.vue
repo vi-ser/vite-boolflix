@@ -55,6 +55,14 @@ nav {
 
             &:hover {
                 cursor: pointer;
+                transition: .5s;
+                filter: brightness(1.5);
+            }
+
+            &:not(:hover) {
+                cursor: pointer;
+                transition: .5s;
+                filter: brightness(1);
             }
         }
 
