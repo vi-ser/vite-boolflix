@@ -10,6 +10,7 @@ export default {
         media: Object,
         title: String,
         original_title: String,
+        mediaType: String,
     },
 
     data() {
@@ -57,7 +58,7 @@ export default {
 
         getCover(cover) {
             if (cover == null) {
-                return 'https://picsum.photos/342/500'
+                return 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'
             } else {
                 return 'https://image.tmdb.org/t/p/w342/' + cover;
             }
@@ -96,8 +97,20 @@ export default {
 
         removeHoverClass() {
             this.isHovered = false;
-        }
+        },
 
+        castShow() {
+            axios.get('https://api.themoviedb.org/3/' + this.mediaType + '/' + this.media.id + '/credits?api_key=9a5bf9d0d0e38756373c9b8e6d6b6c10')
+                .then(res => {
+                    this.store.actors = res.data.cast;
+
+                    this.store.actors = res.data.cast.slice(0, 5);
+                    if (this.store.actors.length === 0) {
+                        this.store.actors = [{ name: 'No credits' }];
+                    }
+
+                });
+        }
     }
 }
 </script>
@@ -120,11 +133,28 @@ export default {
             original_title }}</span> <br> <br>
                 <span v-if="media.overview.length < 100" id="overview">{{ media.overview }}</span>
                 <div v-else>{{ media.overview.substring(0, 100) + ".." }}</div>
-                <a :href="'https://www.themoviedb.org/movie/' + media.id" target="_blank">more</a>
+                <a :href="'https://www.themoviedb.org/' + mediaType + '/' + media.id" target="_blank">more</a>
 
             </div>
             <div class="flag-container">
                 <img id="language" :src="getFlagUrl(media.original_language)">
+            </div>
+
+            <div @click="castShow" class="dropup">
+                <a class="btn btn-secondary btn-sm dropdown-toggle px-2 border-white text-uppercase bg-white text-black fw-bold"
+                    href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    cast
+                </a>
+
+                <ul class="dropdown-menu px-3 py-1 mb-2 bg-dark">
+                    <li class="dropdown-item text-white my-2 user-select-none text-uppercase fw-bold">Actors</li>
+                    <li class="dropdown-item text-white">
+                        <hr>
+                    </li>
+                    <li v-for="actor in store.actors"><a class="dropdown-item text-white mb-2"
+                            :href="'https://www.themoviedb.org/person/' + actor.id" target="_blank">{{ actor.name
+                            }}</a></li>
+                </ul>
             </div>
         </div>
     </li>
@@ -205,9 +235,6 @@ li {
             }
 
             a {
-                position: absolute;
-                bottom: 20px;
-                left: 20px;
                 text-transform: uppercase;
                 color: lightgray;
 
@@ -215,6 +242,21 @@ li {
                     color: white;
                 }
             }
+        }
+
+        .dropup {
+            position: absolute;
+            left: 20px;
+            bottom: 20px;
+
+            li:hover {
+                background-color: #404040;
+            }
+        }
+
+
+        .dropdown-toggle::after {
+            display: none;
         }
 
     }

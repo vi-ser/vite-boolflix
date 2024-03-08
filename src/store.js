@@ -9,4 +9,5 @@ export const store = reactive({
     noMovies: false,
     noSeries: false,
     noResults: false,
+    actors: '',
 });

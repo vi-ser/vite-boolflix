@@ -37,7 +37,7 @@ export default {
             <h2 class="mb-4 text-uppercase fs-5">Movies</h2>
             <ul id="content" class="list-unstyled">
                 <MediaItem v-for="currentMovie in store.movies" :media="currentMovie" :title="currentMovie.title"
-                    :original_title="currentMovie.original_title"></MediaItem>
+                    :original_title="currentMovie.original_title" mediaType="movie"></MediaItem>
             </ul>
         </div>
         <br>
@@ -45,7 +45,7 @@ export default {
             <h2 class="mb-4 text-uppercase fs-5">TV Series</h2>
             <ul id="content" class="list-unstyled">
                 <MediaItem v-for="currentSerie in store.series" :media="currentSerie" :title="currentSerie.name"
-                    :original_title="currentSerie.original_name"></MediaItem>
+                    :original_title="currentSerie.original_name" mediaType="tv"></MediaItem>
             </ul>
         </div>
     </div>
@@ -66,4 +66,4 @@ export default {
     }
 
 }
-</style>./MediaItem.vue/index.js
+</style>
