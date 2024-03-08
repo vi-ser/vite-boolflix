@@ -1,14 +1,15 @@
 <script>
 import axios from 'axios';
 import { store } from '../store.js'
-import SerieItem from './SerieItem.vue';
 
 
 export default {
-    name: 'MovieItem',
+    name: 'MediaItem',
 
     props: {
-        movie: Object,
+        media: Object,
+        title: String,
+        original_title: String,
     },
 
     data() {
@@ -106,24 +107,24 @@ export default {
         class="serie d-flex flex-column justify-content-start" :class="{ 'hovered': isHovered }">
         <div class="front-card">
             <div class="cover-container">
-                <img id="cover" :src="getCover(movie.poster_path)" :alt="movie.title">
+                <img id="cover" :src="getCover(media.poster_path)" :alt="title">
             </div>
         </div>
         <div class="back-card">
 
             <div class="text">
-                <span id="title">{{ movie.title }}</span><br>
-                <span id="vote" v-html="starVote(movie.vote_average)"></span><br>
-                <span v-show="movie.title !== movie.original_title" id="original-title"><strong>Original name:
+                <span id="title">{{ title }}</span><br>
+                <span id="vote" v-html="starVote(media.vote_average)"></span><br>
+                <span v-show="title !== original_title" id="original-title"><strong>Original name:
                     </strong>{{
-            movie.original_title }}</span> <br> <br>
-                <span v-if="movie.overview.length < 100" id="overview">{{ movie.overview }}</span>
-                <div v-else>{{ movie.overview.substring(0, 100) + ".." }}</div>
-                <a :href="'https://www.themoviedb.org/movie/' + movie.id" target="_blank">more</a>
+            original_title }}</span> <br> <br>
+                <span v-if="media.overview.length < 100" id="overview">{{ media.overview }}</span>
+                <div v-else>{{ media.overview.substring(0, 100) + ".." }}</div>
+                <a :href="'https://www.themoviedb.org/movie/' + media.id" target="_blank">more</a>
 
             </div>
             <div class="flag-container">
-                <img id="language" :src="getFlagUrl(movie.original_language)">
+                <img id="language" :src="getFlagUrl(media.original_language)">
             </div>
         </div>
     </li>
@@ -221,9 +222,6 @@ li {
     li.hovered .back-card {
         transform: rotateY(0deg);
     }
-
-
-
 
 }
 </style>

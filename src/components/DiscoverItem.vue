@@ -1,7 +1,6 @@
 <script>
 
-import MovieItem from '../components/MovieItem.vue'
-import SerieItem from '../components/SerieItem.vue'
+import MediaItem from '../components/MediaItem.vue'
 
 import { store } from '../store.js'
 
@@ -9,8 +8,7 @@ export default {
     name: 'DiscoverItem',
 
     components: {
-        MovieItem,
-        SerieItem,
+        MediaItem,
     },
 
     data() {
@@ -38,19 +36,19 @@ export default {
         <div v-show="!store.noMovies" class="p-5 bg-dark rounded-1">
             <h2 class="mb-4 text-uppercase fs-5">Movies</h2>
             <ul id="content" class="list-unstyled">
-                <MovieItem v-for="currentMovie in store.movies" :movie="currentMovie"></MovieItem>
+                <MediaItem v-for="currentMovie in store.movies" :media="currentMovie" :title="currentMovie.title"
+                    :original_title="currentMovie.original_title"></MediaItem>
             </ul>
         </div>
         <br>
         <div v-show="!store.noSeries" class="p-5 bg-dark rounded-1">
             <h2 class="mb-4 text-uppercase fs-5">TV Series</h2>
             <ul id="content" class="list-unstyled">
-                <SerieItem v-for="currentSerie in store.series" :serie="currentSerie"></SerieItem>
+                <MediaItem v-for="currentSerie in store.series" :media="currentSerie" :title="currentSerie.name"
+                    :original_title="currentSerie.original_name"></MediaItem>
             </ul>
         </div>
     </div>
-
-
 
 </template>
 
@@ -68,4 +66,4 @@ export default {
     }
 
 }
-</style>
+</style>./MediaItem.vue/index.js
