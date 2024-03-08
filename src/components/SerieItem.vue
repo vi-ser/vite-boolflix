@@ -2,15 +2,11 @@
 import axios from 'axios';
 import { store } from '../store.js'
 
-
 export default {
-    name: 'MediaItem',
+    name: 'SerieItem',
 
     props: {
-        media: Object,
-        title: String,
-        original_title: String,
-        mediaType: String,
+        serie: Object,
     },
 
     data() {
@@ -56,14 +52,6 @@ export default {
             }
         },
 
-        getCover(cover) {
-            if (cover == null) {
-                return 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'
-            } else {
-                return 'https://image.tmdb.org/t/p/w342/' + cover;
-            }
-        },
-
         starVote(number) {
             number /= 2;
             number = Math.round(number);
@@ -91,67 +79,48 @@ export default {
             }
         },
 
+        getCover(cover) {
+            if (cover == null) {
+                return 'https://picsum.photos/342/500'
+            } else {
+                return 'https://image.tmdb.org/t/p/w342/' + cover;
+            }
+        },
+
         addHoverClass() {
             this.isHovered = true;
         },
 
         removeHoverClass() {
             this.isHovered = false;
-        },
-
-        castShow() {
-            axios.get('https://api.themoviedb.org/3/' + this.mediaType + '/' + this.media.id + '/credits?api_key=9a5bf9d0d0e38756373c9b8e6d6b6c10')
-                .then(res => {
-                    this.store.actors = res.data.cast;
-
-                    this.store.actors = res.data.cast.slice(0, 5);
-                    if (this.store.actors.length === 0) {
-                        this.store.actors = [{ name: 'No credits' }];
-                    }
-
-                });
         }
+
     }
 }
+
 </script>
 
 <template>
-    <li @mouseenter="addHoverClass" @mouseleave="removeHoverClass" id="media-element"
+    <li @mouseenter="addHoverClass" @mouseleave="removeHoverClass"
         class="serie d-flex flex-column justify-content-start" :class="{ 'hovered': isHovered }">
         <div class="front-card">
             <div class="cover-container">
-                <img id="cover" :src="getCover(media.poster_path)" :alt="title">
+                <img id="cover" :src="getCover(serie.poster_path)" :alt="serie.name">
             </div>
         </div>
         <div class="back-card">
 
             <div class="text">
-                <span id="title">{{ title }}</span><br>
-                <span id="vote" v-html="starVote(media.vote_average)"></span><br>
-                <span v-show="title !== original_title" id="original-title"><strong>Original name:
-                    </strong>{{
-            original_title }}</span> <br> <br>
-                <span v-if="media.overview.length < 100" id="overview">{{ media.overview }}</span>
-                <div v-else>{{ media.overview.substring(0, 100) + ".." }}</div>
-                <a :href="'https://www.themoviedb.org/' + mediaType + '/' + media.id" target="_blank">more</a>
-
+                <span id="title">{{ serie.name }}</span><br>
+                <span id="vote" v-html="starVote(serie.vote_average)"></span><br>
+                <span v-show="serie.name !== serie.original_name" id="original-title"><strong>Original name: </strong>{{
+            serie.original_name }}</span><br><br>
+                <span v-if="serie.overview.length < 100" id="overview">{{ serie.overview }}</span>
+                <div v-else>{{ serie.overview.substring(0, 100) + ".." }}</div>
+                <a :href="'https://www.themoviedb.org/tv/' + serie.id" target="_blank">more</a>
             </div>
             <div class="flag-container">
-                <img id="language" :src="getFlagUrl(media.original_language)">
-            </div>
-
-            <div @click="castShow" class="dropup">
-                <a class="btn btn-secondary btn-sm dropdown-toggle px-2 border-white text-uppercase bg-white text-black fw-bold"
-                    href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    cast
-                </a>
-
-                <ul class="dropdown-menu px-3 py-1 mb-2 bg-dark">
-                    <li class="dropdown-item text-white my-2 user-select-none text-uppercase fw-bold">credits</li>
-                    <li v-for="actor in store.actors"><a class="dropdown-item text-white mb-2"
-                            :href="'https://www.themoviedb.org/person/' + actor.id" target="_blank">{{ actor.name
-                            }}</a></li>
-                </ul>
+                <img id="language" :src="getFlagUrl(serie.original_language)">
             </div>
         </div>
     </li>
@@ -161,7 +130,7 @@ export default {
 @use '../styles/variables' as *;
 @use '../styles/general' as *;
 
-#media-element {
+li {
 
     width: calc(100% / 5 - $movieGap / 5 * 4);
     position: relative;
@@ -232,6 +201,9 @@ export default {
             }
 
             a {
+                position: absolute;
+                bottom: 20px;
+                left: 20px;
                 text-transform: uppercase;
                 color: lightgray;
 
@@ -241,19 +213,6 @@ export default {
             }
         }
 
-        .dropup {
-            position: absolute;
-            left: 20px;
-            bottom: 20px;
-        }
-
-        .dropdown-item:hover {
-            background-color: transparent;
-        }
-
-        .dropdown-toggle::after {
-            display: none;
-        }
     }
 
     li.hovered .back-card {
